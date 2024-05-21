@@ -105,8 +105,8 @@
         class="disabled"
       {% endif %}
     >
-    <label for="{{ input_id }}">
-      {{ value -}}
+    <label data-{{ option.name | replace: " ", "-"}}="{{-value-}}" for="{{ input_id }}">
+      {{- value -}}
       {{ label_unavailable }}
     </label>
   {%- elsif picker_type == 'dropdown' or picker_type == 'swatch_dropdown' -%}
@@ -130,3 +130,10 @@
     </option>
   {%- endif -%}
 {%- endfor -%}
+<script>
+  document.querySelectorAll('input+label[data-{{ option.name | downcase | replace: " ", "-"}}]').forEach(el=>{
+    el.addEventListener('click',()=>{
+      document.querySelector('#selected-{{option.name | replace: " ", "-"}}').textContent = " "+el.getAttribute('data-{{ option.name | downcase | replace: " ", "-"}}')
+    })
+  })
+</script>
